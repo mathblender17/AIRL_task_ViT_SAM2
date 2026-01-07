@@ -1,231 +1,123 @@
-Vision Transformer (ViT) on CIFAR-10
-====================================
+👁️ Advanced Computer Vision: From Scratch ViT to Zero-Shot SAM 2
+=================================================================
 
-This repository contains a Vision Transformer (ViT) implementation in PyTorch trained on the CIFAR-10 dataset. The project includes optimizations like Mixup, Label Smoothing, AutoAugment, DropPath, Cosine LR Scheduler, and AMP (Automatic Mixed Precision) for faster GPU training.
+This repository demonstrates the spectrum of modern Computer Vision engineering: **Deep Learning Fundamentals** and **Applied Foundation Models**. It contains two distinct projects:
 
-* * *
+1.  **Vision Transformer (ViT) Implementation**: A custom, ground-up implementation of ViT trained on CIFAR-10 with state-of-the-art regularization techniques.
 
-Features:
+2.  **Text-Driven Segmentation (VLM)**: A zero-shot pipeline orchestrating **GroundingDINO** and **SAM 2** to segment objects based purely on natural language prompts.
 
-*   Patch-based image embedding with CLS token and learnable positional encoding
-    
-*   Multi-head Self-Attention (MHSA) transformer blocks with residual connections
-    
-*   MLP heads for classification
-    
-*   Mixup data augmentation
-    
-*   Label smoothing for improved generalization
-    
-*   AutoAugment for robust image transformations
-    
-*   DropPath (stochastic depth) for regularization
-    
-*   CosineAnnealing LR scheduler
-    
-*   AMP for faster training on GPU
-    
-*   Fully runnable in Google Colab
-    
+* * * * *
 
-* * *
-
-Installation:
-
-`# Install dependencies
-pip install torch torchvision timm` 
-
-* * *
-
-Dataset:
-
-*   Uses CIFAR-10, which contains 60,000 32x32 color images in 10 classes (50,000 training, 10,000 test).
-    
-*   Classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck
-    
-
-* * *
-
-Model Architecture:
-
-*   Patch size: 4x4
-    
-*   Embedding dimension: 512
-    
-*   Depth: 12 transformer blocks
-    
-*   Heads: 8 per MHSA
-    
-*   MLP ratio: 4
-    
-*   DropPath: Linear decay from 0 → 0.1
-    
-*   CLS token + positional encoding for global representation
-    
-
-* * *
-
-Training:
-
-*   Optimizer: AdamW
-    
-*   Learning Rate: 3e-4
-    
-*   Scheduler: CosineAnnealingLR
-    
-*   Batch size: 128
-    
-*   Epochs: 100
-    
-*   Loss: Label smoothing + Mixup
-    
-
-Example training loop:
-
-`train_loss, train_acc = train_one_epoch(model, train_loader, optimizer, criterion, scaler, mixup_alpha=0.8)
-val_loss, val_acc = evaluate(model, test_loader, criterion)` 
-
-*   Mixed Precision automatically enabled on GPU.
-    
-
-* * *
-
-Results:
-
-
-
-* * *
-
-How to Run:
-
-1.  Clone the repo:
-    
-
-`git clone 
-cd ViT-CIFAR10` 
-
-2.  Launch `colab_notebook.ipynb` in Google Colab.
-    
-3.  Enable GPU runtime (Colab → Runtime → Change runtime type → GPU).
-    
-4.  Run all cells to train the model end-to-end.
-    
-
-* * *
-
-Limitations:
-
-*   Training from scratch is slower; pretraining on ImageNet can further improve accuracy.
-    
-*   Small CIFAR-10 images (32x32) limit the benefit of very deep ViT models.
-    
-*   No early stopping implemented yet.
-    
-
-* * *
-
-References:
-
-1.  An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale (ViT) - https://arxiv.org/abs/2010.11929
-    
-2.  timm PyTorch library - [https://github.com/rwightman/pytorch-image-models]
-
-* * *
-Text-Driven Image Segmentation with SAM 2
-=========================================
-
-This repository demonstrates **text-prompted image segmentation** using **Segment Anything Model (SAM 2)**. Given an image and a text prompt (e.g., "red bicycle" or "orange cat"), the pipeline detects relevant regions and produces segmentation masks.
-
-* * *
-
-📌 Features
------------
-
-*   Accepts **any input image** and a **text prompt** describing the object to segment
-    
-*   Converts the text prompt to **region seeds** using models like **GroundingDINO / GLIP / CLIPSeg**
-    
-*   Feeds region seeds to **SAM 2** for mask generation
-    
-*   Displays **final mask overlay** on the original image
-    
-*   End-to-end runnable on **Google Colab**
-    
-
-* * *
-
-🛠 Installation
----------------
-
-`# Install dependencies
-pip install torch torchvision timm transformers opencv-python matplotlib
-# Additional SAM 2 / grounding models may require cloning official repos or installing from HuggingFace` 
-
-* * *
-
-📂 Example Images
------------------
-
-*   Any natural image where the object described in the text prompt is visible.
-    
-*   Recommended resolution: **moderate size (<= 1024x1024)** for Colab GPU
-    
-*   Example prompts: `"orange cat"`, `"man with hat"`, `"white dog"`, `"red bicycle"`
-    
-
-* * *
-
-🏗 Pipeline Overview
+📂 Project Structure
 --------------------
 
-1.  **Load Image** – Read the input image.
-    
-2.  **Text Prompt → Region Seeds** – Use GroundingDINO / GLIP / CLIPSeg to generate bounding boxes or points for the object described in text.
-    
-3.  **SAM 2 Segmentation** – Feed the seeds to SAM 2 to produce masks.
-    
-4.  **Display Masks** – Overlay the mask on the original image.
-    
+| **Notebook** | **Task Description** | **Key Technologies** |
+| --- | --- | --- |
+| **`q1.ipynb`** | **ViT from Scratch**: Training a Vision Transformer on CIFAR-10. | PyTorch, Mixup, AutoAugment, AMP |
+| **`q2.ipynb`** | **Text-to-Mask Pipeline**: Zero-shot segmentation pipeline. | SAM 2, GroundingDINO, Transformers |
 
-* * *
+* * * * *
 
-⚡ How to Run
-------------
+🚀 Task 1: Vision Transformer (ViT) on CIFAR-10
+-----------------------------------------------
 
-1.  Clone the repo:
-    
+A complete PyTorch implementation of the Vision Transformer architecture, optimized for fast convergence and generalization on small datasets.
 
-`git clone 
-cd SAM2-TextSeg` 
+### 🧠 Technical Highlights
 
-2.  Launch `sam2_colab.ipynb` in Google Colab.
-    
-3.  Enable GPU runtime (Colab → Runtime → Change runtime type → GPU).
-    
-4.  Run all cells and provide an image + text prompt.
-    
+-   **Architecture from Scratch**: Manual implementation of `PatchEmbed`, `CLS` tokens, and `Multi-Head Self-Attention` (MHSA) blocks.
 
-* * *
+-   **Modern Regularization Recipe**: Implements the "Bag of Tricks" for training Transformers effectively on small data:
 
-🎯 Limitations
---------------
+    -   **Mixup & Label Smoothing**: Prevents overfitting by blending images and softening targets.
 
-*   Accuracy depends on the text-to-region model; sometimes objects may not be detected if the prompt is ambiguous.
-    
-*   Very small or partially occluded objects may fail.
-    
-*   Colab GPU memory limits the maximum image size.
-    
-*   SAM 2 is large; inference may take a few seconds per image.
-    
+    -   **AutoAugment**: Learns optimal augmentation policies.
 
-* * *
+    -   **Stochastic Depth (DropPath)**: Randomly drops residual paths during training.
 
-📖 References
+-   **Performance Optimization**: Uses **Automatic Mixed Precision (AMP)** for accelerated GPU training.
+
+### 📊 Model Config & Training
+
+| **Parameter** | **Value** | **Description** |
+| --- | --- | --- |
+| **Patch Size** | 4x4 | Optimized for 32x32 CIFAR images |
+| **Embed Dim** | 512 | Feature vector size per token |
+| **Depth** | 12 | Number of Transformer blocks |
+| **Heads** | 8 | Parallel attention heads |
+| **Optimizer** | AdamW | `lr=3e-4`, Cosine Decay Scheduler |
+
+* * * * *
+
+🔮 Task 2: Text-Driven Image Segmentation (SAM 2)
+-------------------------------------------------
+
+An agentic pipeline that bridges **Language** and **Vision**. Instead of manual prompting, this system allows users to segment objects using natural language (e.g., *"red bicycle"*), leveraging the power of Vision-Language Models.
+
+### 🛠️ The Pipeline
+
+1.  **Prompting**: User inputs a text prompt (e.g., *"orange cat"*).
+
+2.  **Zero-Shot Detection (GroundingDINO)**: The VLM scans the image and generates **bounding box seeds** for the text concept.
+
+3.  **Segmentation (SAM 2)**: These boxes are fed into **Segment Anything Model 2**, which generates pixel-perfect masks.
+
+4.  **Result**: High-quality segmentation without manual clicking or annotations.
+
+### 🌟 Key Capabilities
+
+-   **Zero-Shot Generalization**: Works on any object category without retraining.
+
+-   **Foundation Model Orchestration**: Chains multiple SOTA models (DINO + SAM 2) to solve complex tasks.
+
+-   **Video Ready**: Leveraging SAM 2's architecture, this approach is extensible to video object segmentation.
+
+* * * * *
+
+💻 Installation & Usage
+-----------------------
+
+### 1\. Clone the Repository
+
+Bash
+
+```
+git clone https://github.com/mathblender17/airl_task_vit_sam2.git
+cd airl_task_vit_sam2
+
+```
+
+### 2\. Install Dependencies
+
+Bash
+
+```
+# Core DL libraries
+pip install torch torchvision timm
+
+# For SAM 2 and GroundingDINO
+pip install transformers opencv-python matplotlib
+
+```
+
+### 3\. Run in Colab
+
+Both tasks are designed to be fully runnable in Google Colab (Free Tier compatible).
+
+-   Open `q1.ipynb` for ViT Training.
+
+-   Open `q2.ipynb` for Text-to-Segmentation.
+
+-   *Ensure Runtime is set to **GPU**.*
+
+* * * * *
+
+📜 References
 -------------
 
-1.  [Segment Anything Model 2 (SAM 2)]
-    
-2.  [GroundingDINO]
-    
-3.  [CLIPSeg]
+-   **ViT**: [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/abs/2010.11929)
+
+-   **SAM 2**: [Segment Anything Model 2](https://github.com/facebookresearch/segment-anything-2)
+
+-   **GroundingDINO**: [Grounding DINO: Marrying DINO with Grounded Pre-Training](https://github.com/IDEA-Research/GroundingDINO)
